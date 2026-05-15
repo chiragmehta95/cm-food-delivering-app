@@ -1,64 +1,96 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { Link } from 'react-router-dom'
+
 import { useCart } from '../context/CartContext'
+
+import getTodayMenu from '../services/menuService'
 
 export default function Home() {
   const { addToCart, cartItems } =
     useCart()
 
-  const menu = [
-    {
-      id: 1,
-      name: 'Veg Thali',
-      price: 80
-    },
-    {
-      id: 2,
-      name: 'Paneer Rice',
-      price: 120
+  const [menu, setMenu] = useState([])
+
+  const [loading, setLoading] =
+    useState(true)
+
+  const fetchMenu = async () => {
+    try {
+      const data =
+        await getTodayMenu()
+
+      setMenu(data)
+    } catch (error) {
+      console.error(
+        'Error fetching menu:',
+        error
+      )
+    } finally {
+      setLoading(false)
     }
-  ]
+  }
+
+  useEffect(() => {
+    fetchMenu()
+  }, [])
 
   return (
     <div style={{ padding: 20 }}>
       <h1>Food Ordering App</h1>
 
-      <h2>
-        Cart Count:
-        {cartItems.length}
-      </h2>
+      <div
+        style={{
+          marginBottom: 20
+        }}
+      >
+        <Link to="/cart">
+          🛒 Cart (
+          {cartItems.length})
+        </Link>
+      </div>
 
-      <Link to="/cart">
-        Go To Cart
-      </Link>
-
-      {menu.map((food) => (
-        <div
-          key={food.id}
-          style={{
-            border: '1px solid #ddd',
-            padding: 20,
-            marginBottom: 20,
-            borderRadius: 10
-          }}
-        >
-          <h2>{food.name}</h2>
-
-          <p>₹{food.price}</p>
-
-          <button
-            onClick={() => {
-              console.log(
-                'ADDING ITEM',
-                food
-              )
-
-              addToCart(food)
+      {loading ? (
+        <p>Loading menu...</p>
+      ) : (
+        menu.map((food) => (
+          <div
+            key={food.id}
+            style={{
+              border:
+                '1px solid #ddd',
+              padding: 20,
+              marginBottom: 20,
+              borderRadius: 10
             }}
           >
-            Add To Cart
-          </button>
-        </div>
-      ))}
+            <h2>{food.name}</h2>
+
+            <p>₹{food.price}</p>
+
+            <button
+              onClick={() =>
+                addToCart(food)
+              }
+              style={{
+                padding:
+                  '10px 15px',
+                background:
+                  'orange',
+                color: 'white',
+                border: 'none',
+                borderRadius: 6,
+                cursor: 'pointer'
+              }}
+            >
+              Add To Cart
+            </button>
+          </div>
+        ))
+      )}
     </div>
   )
 }
