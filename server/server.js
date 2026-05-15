@@ -5,16 +5,27 @@ require('dotenv').config()
 
 const app = express()
 
-app.use(cors({
-  origin: [
-    'https://cm-food-delivering-app.onrender.com',
-    'https://cm-food-delivering-1j4pgs5db-chiragmehta95s-projects.vercel.app',
-    'https://cm-food-delivering-app-git-main-chiragmehta95s-projects.vercel.app',
-    'http://localhost:3000',
-    'http://localhost:5173'
-  ]
-}))
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'https://food-ordering-backend.onrender.com'
+    ]
+    
+    // Allow all Vercel preview and production URLs
+    if (origin && (origin.includes('vercel.app') || allowedOrigins.includes(origin))) {
+      callback(null, true)
+    } else if (!origin) {
+      // Allow requests with no origin (mobile apps, curl requests)
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
+app.use(cors(corsOptions))
 app.use(express.json())
 
 app.get('/', (req, res) => {
