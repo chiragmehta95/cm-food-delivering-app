@@ -1,39 +1,33 @@
-export default function App() {
-  const foods = [
-    {
-      id: 1,
-      name: "Veg Thali",
-      price: 80
-    },
-    {
-      id: 2,
-      name: "Paneer Rice",
-      price: 120
-    }
-  ]
+import { Routes, Route } from 'react-router-dom'
 
+import Navbar from './components/Navbar.jsx'
+
+import Home from './pages/Home'
+import Cart from './pages/Cart'
+import Checkout from './pages/Checkout'
+import Orders from './pages/Orders'
+import Profile from './pages/Profile'
+import Login from './pages/Login'
+import Support from './pages/Support'
+
+function App() {
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Food Ordering App</h1>
+    <>
+      <Navbar />
 
-      {foods.map((food) => (
-        <div
-          key={food.id}
-          style={{
-            border: "1px solid #ddd",
-            padding: 20,
-            marginTop: 20,
-            borderRadius: 10
-          }}
-        >
-          <h2>{food.name}</h2>
-          <p>₹{food.price}</p>
-
-          <button>
-            Add To Cart
-          </button>
-        </div>
-      ))}
-    </div>
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/support" element={<Support />} />
+        </Routes>
+      </div>
+    </>
   )
 }
+
+export default App
