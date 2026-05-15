@@ -19,6 +19,10 @@ function Navbar() {
         <Link to="/orders">Orders</Link>
         {' | '}
         <Link to="/profile">Profile</Link>
+        {' | '}
+        <Link to="/login">Login</Link>
+        {' | '}
+        <Link to="/support">Support</Link>
       </div>
     </div>
   )
