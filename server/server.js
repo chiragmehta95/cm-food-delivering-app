@@ -6,7 +6,12 @@ require('dotenv').config()
 const app = express()
 
 app.use(cors({
-  origin: 'https://cm-food-delivering-app.onrender.com'
+  origin: [
+    'https://cm-food-delivering-app.onrender.com',
+    'https://cm-food-delivering-1j4pgs5db-chiragmehta95s-projects.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:5173'
+  ]
 }))
 
 app.use(express.json())
