@@ -18,11 +18,15 @@ export default function Home() {
   const [loading, setLoading] =
     useState(true)
 
+  const [error, setError] = useState(null)
+
   const fetchMenu = async () => {
     try {
+      console.log('Fetching menu...')
       const data =
         await getTodayMenu()
 
+      console.log('Menu data received:', data)
       setMenu(
   Array.isArray(data) ? data : []
 )
@@ -31,6 +35,7 @@ export default function Home() {
         'Error fetching menu:',
         error
       )
+      setError(error.message)
     } finally {
       setLoading(false)
     }
@@ -57,6 +62,12 @@ export default function Home() {
 
       {loading ? (
         <p>Loading menu...</p>
+      ) : error ? (
+        <p style={{ color: 'red' }}>
+          Error: {error}
+        </p>
+      ) : menu.length === 0 ? (
+        <p>No menu items available</p>
       ) : (
         Array.isArray(menu) &&
 menu.map((food) => (
