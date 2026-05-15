@@ -23,7 +23,9 @@ export default function Home() {
       const data =
         await getTodayMenu()
 
-      setMenu(data)
+      setMenu(
+  Array.isArray(data) ? data : []
+)
     } catch (error) {
       console.error(
         'Error fetching menu:',
@@ -56,7 +58,8 @@ export default function Home() {
       {loading ? (
         <p>Loading menu...</p>
       ) : (
-        menu.map((food) => (
+        Array.isArray(menu) &&
+menu.map((food) => (
           <div
             key={food.id}
             style={{
