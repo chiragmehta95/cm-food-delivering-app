@@ -9,6 +9,7 @@ app.use(cors({
   origin: [
     'https://cm-food-delivering-app.onrender.com',
     'https://cm-food-delivering-1j4pgs5db-chiragmehta95s-projects.vercel.app',
+    'https://cm-food-delivering-app-git-main-chiragmehta95s-projects.vercel.app',
     'http://localhost:3000',
     'http://localhost:5173'
   ]
